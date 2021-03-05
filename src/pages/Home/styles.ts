@@ -15,7 +15,7 @@ const appearFromLeft = keyframes`
 export const Container = styled.div`
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0.7rem 1.4rem;
+  padding: 0.7rem 20px;
 
   animation: ${appearFromLeft} 1s;
 `;

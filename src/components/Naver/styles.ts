@@ -10,7 +10,8 @@ export const Container = styled.div`
     height: 17.5rem;
 
     img {
-      width: 17.5rem;
+      width: 90%;
+      min-width: 17.5rem;
       height: 17.5rem;
     }
   }
@@ -26,8 +27,25 @@ export const Container = styled.div`
   > div {
     margin-top: 10px;
 
+    svg {
+      cursor: pointer;
+    }
+
     svg:nth-of-type(2) {
       margin-left: 10px;
     }
+  }
+
+  @media (max-width: 1200px) {
+    width: 33%;
+  }
+
+  @media (max-width: 856px) {
+    width: 49%;
+  }
+
+  @media (max-width: 540px) {
+    width: 99%;
+    align-items: center;
   }
 `;

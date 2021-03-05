@@ -32,22 +32,34 @@ export const Naver = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
+  padding: 0 20px;
 
   img {
     max-width: 31.4rem;
     width: 100%;
     height: 31.4rem;
+
+    @media (max-width: 860px) {
+      display: none;
+    }
+  }
+
+  @media (max-width: 860px) {
+    flex-direction: column-reverse;
+    max-width: 500px;
   }
 `;
 
 export const InfoNaver = styled.div`
   background-color: white;
   padding: 25px 30px;
+  width: 100%;
   flex: 1;
   height: 31.4rem;
   position: relative;
 
   > svg {
+    margin-left: 10px;
     position: absolute;
     right: 20px;
   }
@@ -85,5 +97,10 @@ export const InfoNaver = styled.div`
     svg:nth-of-type(2) {
       margin-left: 15px;
     }
+  }
+
+  @media (max-width: 860px) {
+    width: 23rem;
+    height: 23rem;
   }
 `;

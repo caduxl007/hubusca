@@ -1,7 +1,6 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React from 'react';
 import { FaTrash, FaPen } from 'react-icons/fa';
+import { useHistory } from 'react-router-dom';
 
 import { useNaver } from '../../contexts/NaverContext';
 
@@ -22,7 +21,9 @@ interface INaverProps {
 }
 
 const Naver: React.FC<INaverProps> = ({ data }) => {
-  const { openModalNaver } = useNaver();
+  const { openModalNaver, openModalExclude } = useNaver();
+
+  const history = useHistory();
 
   return (
     <Container>
@@ -33,8 +34,8 @@ const Naver: React.FC<INaverProps> = ({ data }) => {
       <p>{data.job_role}</p>
 
       <div>
-        <FaTrash />
-        <FaPen />
+        <FaTrash onClick={() => openModalExclude(data.id)} />
+        <FaPen onClick={() => history.push(`/edit-naver/${data.id}`)} />
       </div>
     </Container>
   );

@@ -1,22 +1,22 @@
-import React, { useCallback, useRef } from 'react';
-import { format } from 'date-fns';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { FormHandles } from '@unform/core';
+import { format } from 'date-fns';
 import { Form } from '@unform/web';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { FaChevronLeft } from 'react-icons/fa';
 import * as Yup from 'yup';
 
 import { useNaver } from '../../contexts/NaverContext';
 import getValidationErrors from '../../utils/getValidationErrors';
+import api from '../../services/api';
 
 import Header from '../../components/Header';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
 import { Container, Content, HeaderContent } from './styles';
-import api from '../../services/api';
 
-interface ICreateNaverFormData {
+interface INaver {
   job_role: string;
   admission_date: Date;
   birthdate: Date;
@@ -25,26 +25,28 @@ interface ICreateNaverFormData {
   url: string;
 }
 
-const NewNaver: React.FC = () => {
+interface INaverParams {
+  id: string;
+}
+
+const EditNaver: React.FC = () => {
+  const [naver, setNaver] = useState<INaver>();
+
+  const params = useParams<INaverParams>();
   const history = useHistory();
   const formRef = useRef<FormHandles>(null);
 
   const { openModalSucess } = useNaver();
 
   const handleSubmit = useCallback(
-    async (data: ICreateNaverFormData) => {
+    async (data: INaver) => {
       try {
         formRef.current?.setErrors({});
 
         const schema = Yup.object().shape({
           name: Yup.string().required('Nome obrigatório'),
           job_role: Yup.string().required('Cargo obrigatório'),
-          birthdate: Yup.string().required(
-            'Data de nascimento. Ex: 00/00/0000',
-          ),
-          admission_date: Yup.string().required(
-            'Data que entrou na empresa. Ex: 00/00/0000',
-          ),
+
           project: Yup.string().required('Campo obrigatório'),
           url: Yup.string()
             .url('Coloque um link válido')
@@ -55,15 +57,33 @@ const NewNaver: React.FC = () => {
           abortEarly: false,
         });
 
-        await api.post('/navers', {
+        const dataFormatted = {
           ...data,
-          birthdate: format(new Date(data.birthdate), 'dd-MM-yyyy'),
-          admission_date: format(new Date(data.admission_date), 'dd-MM-yyyy'),
+          birthdate: data.birthdate ? data.birthdate : naver?.birthdate,
+          admission_date: data.admission_date
+            ? data.admission_date
+            : naver?.admission_date,
+        };
+
+        if (
+          dataFormatted.admission_date === undefined ||
+          dataFormatted.birthdate === undefined
+        ) {
+          return;
+        }
+
+        await api.put(`/navers/${params.id}`, {
+          ...dataFormatted,
+          birthdate: format(new Date(dataFormatted.birthdate), 'dd-MM-yyyy'),
+          admission_date: format(
+            new Date(dataFormatted.admission_date),
+            'dd-MM-yyyy',
+          ),
         });
 
         openModalSucess({
-          title: 'Naver criado',
-          message: 'Naver criado com sucesso',
+          title: 'Naver atualizado',
+          message: 'Naver atualizado com sucesso!',
         });
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
@@ -73,11 +93,29 @@ const NewNaver: React.FC = () => {
           return;
         }
 
-        alert('Falha ao tentar cadastrar um naver');
+        alert('Falha ao tentar editar um naver');
       }
     },
-    [openModalSucess],
+    [openModalSucess, params.id, naver],
   );
+
+  useEffect(() => {
+    async function loadNaver(): Promise<void> {
+      try {
+        const response = await api.get(`navers/${params.id}`);
+
+        setNaver(response.data);
+      } catch (err) {
+        history.push('/home');
+      }
+    }
+
+    loadNaver();
+  }, [params.id, history]);
+
+  if (!naver) {
+    return <p>Carregando...</p>;
+  }
 
   return (
     <Container>
@@ -86,9 +124,9 @@ const NewNaver: React.FC = () => {
       <Content>
         <HeaderContent>
           <FaChevronLeft onClick={() => history.goBack()} />
-          <h2>Adicionar Naver</h2>
+          <h2>Editar Naver</h2>
         </HeaderContent>
-        <Form ref={formRef} onSubmit={handleSubmit}>
+        <Form ref={formRef} onSubmit={handleSubmit} initialData={naver}>
           <div>
             <Input name="name" placeholder="Nome" />
             <Input name="job_role" placeholder="Cargo" />
@@ -119,4 +157,4 @@ const NewNaver: React.FC = () => {
   );
 };
 
-export default NewNaver;
+export default EditNaver;

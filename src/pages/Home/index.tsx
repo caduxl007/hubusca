@@ -10,6 +10,7 @@ import Naver from '../../components/Naver';
 import ModalNaver from '../../components/ModalNaver';
 
 import { Container, Content, HeaderContent, ContentNavers } from './styles';
+import ModalExclude from '../../components/ModalExclude';
 
 interface INaver {
   id: string;
@@ -25,7 +26,7 @@ const Home: React.FC = () => {
   const [navers, setNavers] = useState<INaver[]>([]);
 
   const history = useHistory();
-  const { isModalNaver } = useNaver();
+  const { isModalNaver, isModalExclude, isNaverExclude } = useNaver();
 
   useEffect(() => {
     try {
@@ -33,13 +34,14 @@ const Home: React.FC = () => {
         setNavers(response.data);
       });
     } catch (err) {
-      console.log(err);
+      throw new Error(err);
     }
-  }, []);
+  }, [isNaverExclude]);
 
   return (
     <Container>
       {isModalNaver && <ModalNaver />}
+      {isModalExclude && <ModalExclude />}
       <Header />
 
       <Content>
