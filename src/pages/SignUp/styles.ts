@@ -2,15 +2,15 @@ import styled, { keyframes } from 'styled-components';
 
 import logo from '../../assets/logo.png';
 
-const appearFromLeft = keyframes`
+const appearFromRight = keyframes`
   from {
     opacity: 0;
-    transform: translateX(-50px);
+    transform: translateX(50px);
   }
 
   to {
     opacity: 1;
-    transform: translateX(1);
+    transform: translateX(0);
   }
 `;
 
@@ -22,7 +22,7 @@ export const Container = styled.div`
   justify-content: center;
   padding: 0.7rem 1.4rem;
 
-  animation: ${appearFromLeft} 0.4s;
+  animation: ${appearFromRight} 0.4s;
 `;
 
 export const Content = styled.div`

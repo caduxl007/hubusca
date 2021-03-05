@@ -4,26 +4,24 @@ import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
 
-import { useAuth } from '../../contexts/AuthContext';
-
 import getValidationErrors from '../../utils/getValidationErrors';
 
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 
 import { Container, Content, Logo } from './styles';
+import api from '../../services/api';
 
 interface ISignInFormData {
   email: string;
   password: string;
 }
 
-const Login: React.FC = () => {
+const SignUp: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   const formRef = useRef<FormHandles>(null);
   const history = useHistory();
-  const { signIn } = useAuth();
 
   const handleSubmit = useCallback(
     async (data: ISignInFormData) => {
@@ -36,19 +34,26 @@ const Login: React.FC = () => {
           email: Yup.string()
             .required('Email obrigatório')
             .email('Digite um email válido'),
-          password: Yup.string().required('Senha obrigatória'),
+          password: Yup.string().min(6, 'No mínimo 6 dígitos'),
+          passwordRepeat: Yup.string()
+            .required('Confirmação de senha é obrigatório')
+            .oneOf([Yup.ref('password'), ''], 'Senhas não conferem'),
         });
 
         await schema.validate(data, {
           abortEarly: false,
         });
 
-        await signIn({
-          email: data.email,
-          password: data.password,
+        const { email, password } = data;
+
+        await api.post('/users/signup', {
+          email,
+          password,
         });
 
-        history.push('/home');
+        alert('Cadastro feito com sucesso!');
+
+        history.push('/');
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -57,12 +62,12 @@ const Login: React.FC = () => {
           return;
         }
 
-        alert('Falha ao tentar logar');
+        alert('Esse e-mail ja está cadastrado!');
       } finally {
         setLoading(false);
       }
     },
-    [history, signIn],
+    [history],
   );
 
   return (
@@ -74,10 +79,16 @@ const Login: React.FC = () => {
 
           <Input name="password" placeholder="Senha" type="password" />
 
-          <Link to="/signup">Cadastra-se</Link>
+          <Input
+            name="passwordRepeat"
+            placeholder="Confirme sua senha"
+            type="password"
+          />
+
+          <Link to="/">Voltar para login</Link>
 
           <Button loading={loading} type="submit">
-            Entrar
+            Cadastrar
           </Button>
         </Form>
       </Content>
@@ -85,4 +96,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default SignUp;
