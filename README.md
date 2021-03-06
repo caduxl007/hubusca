@@ -11,9 +11,6 @@ As seguintes ferramentas foram usadas na construção do projeto:
 - [Styled-components](https://styled-components.com/)
 - [Axios](https://github.com/axios/axios)
 
-Acesse o projeto online:
-
-- [Desafio-Nave](https://nave-nu.vercel.app/)
 
 <h1>📱 Como usar? </h1> 
 
