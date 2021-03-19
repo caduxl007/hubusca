@@ -6,13 +6,6 @@ interface ILoginFormData {
   password: string;
 }
 
-// interface IUser {
-//   id: number;
-//   email: string;
-//   avatar_url: string;
-//   name: string;
-// }
-
 interface AuthState {
   token: string;
 }
@@ -58,18 +51,6 @@ export const AuthProvider: React.FC = ({ children }) => {
 
     setData({} as AuthState);
   }, []);
-
-  // const updateUser = useCallback(
-  //   (user: IUser) => {
-  //     localStorage.setItem('@GoBarber:user', JSON.stringify(user));
-
-  //     setData({
-  //       token: data.token,
-  //       user,
-  //     });
-  //   },
-  //   [data.token],
-  // );
 
   return (
     <AuthContext.Provider value={{ token: data.token, signIn, signOut }}>
