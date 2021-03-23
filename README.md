@@ -1,4 +1,4 @@
-<h1 align="center">Desafio Nave</h1>
+<h1 align="center">HUBusca</h1>
 <p align="center">Desenvolvendo uma aplicação com ReactJS, Styled-components e Typescript.</p>
 
 
@@ -24,10 +24,10 @@ E lógico é bom ter um editor para trabalhar com o código como [VSCode](https:
 
 ```bash
 # Clone este repositório
-$ git clone <https://github.com/caduxl007/desafio-nave>
+$ git clone <https://github.com/caduxl007/hubusca.git>
 
 # Acesse a pasta do projeto 
-$ cd desafio-nave
+$ cd hubusca
 
 Instale as dependências
 $ yarn
