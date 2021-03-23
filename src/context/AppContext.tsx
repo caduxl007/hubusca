@@ -22,10 +22,10 @@ const AppContext = createContext<IAppContextData>({} as IAppContextData);
 
 export const AppProvider: React.FC = ({ children }) => {
   const [users, setUsers] = useState<IUser[]>(() => {
-    const storagedRepositories = localStorage.getItem('@HUBusca:users');
+    const storagedUsers = localStorage.getItem('@HUBusca:users');
 
-    if (storagedRepositories) {
-      return JSON.parse(storagedRepositories);
+    if (storagedUsers) {
+      return JSON.parse(storagedUsers);
     }
 
     return [];
