@@ -1,20 +1,30 @@
 import React from 'react';
+import { FiChevronLeft, FiClock } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 
-import { useAuth } from '../../contexts/AuthContext';
-
-import logo from '../../assets/logo.png';
+import logoImg from '../../assets/logo.png';
 
 import { Container } from './styles';
 
-const Header: React.FC = () => {
-  const { signOut } = useAuth();
+interface IHeaderProps {
+  goBack: boolean;
+}
 
+const Header: React.FC<IHeaderProps> = ({ goBack = true }: IHeaderProps) => {
   return (
     <Container>
-      <img src={logo} alt="Logo" />
-      <button onClick={signOut} type="button">
-        Sair
-      </button>
+      <img src={logoImg} alt="Github Explorer" />
+      {goBack ? (
+        <Link to="/">
+          <FiChevronLeft size={20} />
+          Voltar
+        </Link>
+      ) : (
+        <Link to="/recentes">
+          <FiClock size={20} />
+          Recentes
+        </Link>
+      )}
     </Container>
   );
 };

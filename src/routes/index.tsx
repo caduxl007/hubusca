@@ -1,23 +1,15 @@
 import React from 'react';
-import { Switch } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
-import Route from './Route';
-
-import Login from '../pages/Login';
-import SignUp from '../pages/SignUp';
-
-import Home from '../pages/Home';
-import NewNaver from '../pages/NewNaver';
-import EditNaver from '../pages/EditNaver';
+import Dashboard from '../pages/Dashboard';
+import Profile from '../pages/Profile';
+import Recents from '../pages/Recents';
 
 const Routes: React.FC = () => (
   <Switch>
-    <Route path="/" exact component={Login} />
-    <Route path="/signup" component={SignUp} />
-
-    <Route path="/home" component={Home} isPrivate />
-    <Route path="/new-naver" component={NewNaver} isPrivate />
-    <Route path="/edit-naver/:id" component={EditNaver} isPrivate />
+    <Route path="/" exact component={Dashboard} />
+    <Route path="/recentes" component={Recents} />
+    <Route path="/profile/:id+" component={Profile} />
   </Switch>
 );
 

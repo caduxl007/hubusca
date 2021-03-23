@@ -6,15 +6,22 @@ export const Container = styled.div`
   justify-content: space-between;
 
   img {
-    width: 9.5rem;
-    height: 2.2rem;
+    width: 150px;
   }
 
-  button {
-    font-size: 0.9rem;
-    line-height: 1.5rem;
-    font-weight: bold;
+  a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #a8a8b3;
+    transition: color 0.2s;
+
+    &:hover {
+      color: #666;
+    }
+
+    svg {
+      margin-right: 4px;
+    }
   }
 `;
-
-export const Logo = styled.div``;
