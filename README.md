@@ -13,7 +13,7 @@ As seguintes ferramentas foram usadas na construção do projeto:
 
 
 <h1>📱 Como usar? </h1> 
-
+ 
 ### Pré-requisitos
 
 Primeiramente, você precisa ter instalado em sua máquina as seguintes ferramentas:
