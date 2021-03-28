@@ -1,7 +1,7 @@
 <h1 align="center">HUBusca</h1>
 <p align="center">Desenvolvendo uma aplicação com ReactJS, Styled-components e Typescript.</p>
 
-
+ 
 ### 🛠 Tecnologias
 
 As seguintes ferramentas foram usadas na construção do projeto:  
